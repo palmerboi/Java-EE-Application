@@ -6,7 +6,6 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +16,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author reube
  */
-@WebServlet(urlPatterns = {"/indexPageServlet"})
-public class indexPageServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/accountLookupServlet"})
+public class accountLookupServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +36,10 @@ public class indexPageServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet indexPageServlet</title>");            
+            out.println("<title>Servlet accountLookupServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet indexPageServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet accountLookupServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,21 +57,7 @@ public class indexPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-        String selection = request.getParameter("button");
-        
-        if (selection.equals("create"))
-        {
-            RequestDispatcher dispatcher = getServletContext().
-            getRequestDispatcher("/createAccount.jsp");
-            dispatcher.forward(request, response);
-        }
-        else if (selection.equals("lookup"))
-        {
-            RequestDispatcher dispatcher = getServletContext().
-            getRequestDispatcher("/lookupAccount.jsp");
-            dispatcher.forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     /**
