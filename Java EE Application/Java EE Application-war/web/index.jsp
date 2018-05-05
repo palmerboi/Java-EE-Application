@@ -17,5 +17,8 @@
             <button type="submit" name="button" value="create">Create Account</button>
             <button type="submit" name="button" value="lookup">Lookup Account</button>
         </form>
+            <form action="Visitcount" method="Post">
+                <input type="submit" value="number of visitors on site">
+            </form>
     </body>
 </html>
