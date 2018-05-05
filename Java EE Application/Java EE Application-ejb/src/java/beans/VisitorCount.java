@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Simple singleton bean that counts the number of times a visitor has gone on the site
+ * increments by 1 each time.
  */
 package beans;
 
@@ -9,7 +8,7 @@ import javax.ejb.Singleton;
 
 /**
  *
- * @author alnaib
+ * @author Reuben Palmer 1378847, Alex Alnaib 14874604
  */
 @Singleton
 public class VisitorCount implements VisitorCountRemote {
@@ -19,8 +18,4 @@ public class VisitorCount implements VisitorCountRemote {
         value = value + 1;
         return value;
     }
-   
-
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
 }

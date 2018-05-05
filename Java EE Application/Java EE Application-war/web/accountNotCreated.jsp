@@ -1,7 +1,7 @@
 <%-- 
     Document   : accountNotCreated
     Created on : 3/05/2018, 7:08:18 PM
-    Author     : reube
+    Author     : Reuben Palmer 1378847, Alex Alnaib 14874604
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

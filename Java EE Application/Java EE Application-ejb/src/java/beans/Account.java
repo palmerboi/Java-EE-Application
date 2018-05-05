@@ -1,21 +1,22 @@
 /**
  * This class is a bean representing a bank account.
- * 
- * @author Reuben Palmer 1378847
+ * Includes getters and setters for all bank account attributes.
+ *
+ * @author Reuben Palmer 1378847, Alex Alnaib 14874604
+ *
  */
-
 package beans;
 
 import java.io.Serializable;
 
-
 public class Account implements Serializable {
+
     private int accountID;
     private int branchID;
     private float balance;
-    
-    public Account () {
-        
+
+    public Account() {
+
     }
 
     public int getAccountID() {

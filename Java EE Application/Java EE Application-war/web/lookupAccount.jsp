@@ -1,7 +1,7 @@
 <%-- 
     Document   : lookupAccount
     Created on : 3/05/2018, 5:55:19 PM
-    Author     : reube
+    Author     : Reuben Palmer 1378847, Alex Alnaib 14874604
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,7 +12,7 @@
         <title>Bank Account Lookup</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Look up account</h1>
         <form action="${pageContext.request.contextPath}/accountLookupServlet" method="GET">
             <label>Account ID number:</label>
             <input type="text" id="bankID" name="bankID" />
