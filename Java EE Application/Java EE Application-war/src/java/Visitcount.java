@@ -4,53 +4,43 @@
  * and open the template in the editor.
  */
 
-import ejb.SessionManagerBean;
+import beans.VisitorCountRemote;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author reube
+ * @author alnaib
  */
-@WebServlet(urlPatterns = {"/indexPageServlet"})
-public class indexPageServlet extends HttpServlet {
+public class Visitcount extends HttpServlet {
 
-    //@EJB
-    //private SessionManagerBean sessionManagerBean;
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    @EJB
+    private VisitorCountRemote visitorCount;
+   int counter; 
+   
+   public void init()
+   {
+       counter = 0;
+   }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      //  request.getSession(true);
+        
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet indexPageServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-        //    out.println("<br><br>");
-      //      out.println(sessionManagerBean.getActiveSessionCount()+ "user(s) on site.");
-            out.println("<h1>Servlet indexPageServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            counter = visitorCount.countVisitor(counter);
+            out.println("No of visitors is: " +counter);
+            
+                request.setAttribute("user_on_site",counter);
+
+        }catch(Exception e){
+            
         }
     }
 
@@ -66,22 +56,7 @@ public class indexPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-     //   processRequest(request, response);
-        String selection = request.getParameter("button");
-        
-        if (selection.equals("create"))
-        {
-            RequestDispatcher dispatcher = getServletContext().
-            getRequestDispatcher("/createAccount.jsp");
-            dispatcher.forward(request, response);
-        }
-        else if (selection.equals("lookup"))
-        {
-            RequestDispatcher dispatcher = getServletContext().
-            getRequestDispatcher("/lookupAccount.jsp");
-            dispatcher.forward(request, response);
-        }
-        
+        processRequest(request, response);
     }
 
     /**
