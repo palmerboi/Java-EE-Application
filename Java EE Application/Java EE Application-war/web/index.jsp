@@ -9,9 +9,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>AUT Bank Options Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>AUT Bank</h1>
+        <form action="${pageContext.request.contextPath}/indexPageServlet" method="GET">
+            <button type="submit" name="button" value="create">Create Account</button>
+            <button type="submit" name="button" value="lookup">Lookup Account</button>
+        </form>
     </body>
 </html>

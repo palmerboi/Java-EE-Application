@@ -4,8 +4,13 @@
  * and open the template in the editor.
  */
 
+import beans.Account;
+import beans.BankAccount;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author reube
  */
-@WebServlet(urlPatterns = {"/indexPageServlet"})
-public class indexPageServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/accountLookupServlet"})
+public class accountLookupServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +42,10 @@ public class indexPageServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet indexPageServlet</title>");            
+            out.println("<title>Servlet accountLookupServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet indexPageServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet accountLookupServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,18 +64,28 @@ public class indexPageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        String selection = request.getParameter("button");
-        
-        if (selection.equals("create"))
-        {
+        String accountID = request.getParameter("bankID");
+        BankAccount bankAccount = new BankAccount();
+        Account account;
+        try {
+            account = bankAccount.lookupAccount(Integer.parseInt(accountID));
+            if (account != null) {
             RequestDispatcher dispatcher = getServletContext().
-            getRequestDispatcher("/createAccount.jsp");
+            getRequestDispatcher("/accountFound.jsp");
             dispatcher.forward(request, response);
         }
-        else if (selection.equals("lookup"))
-        {
+        else {
             RequestDispatcher dispatcher = getServletContext().
-            getRequestDispatcher("/lookupAccount.jsp");
+            getRequestDispatcher("/accountNotFound.jsp");
+            dispatcher.forward(request, response);
+        }
+        } catch (SQLException ex) {
+            RequestDispatcher dispatcher = getServletContext().
+            getRequestDispatcher("/accountNotFound.jsp");
+            dispatcher.forward(request, response);
+        } catch (ClassNotFoundException ex) {
+            RequestDispatcher dispatcher = getServletContext().
+            getRequestDispatcher("/accountNotFound.jsp");
             dispatcher.forward(request, response);
         }
     }
