@@ -4,13 +4,13 @@
  * and open the template in the editor.
  */
 
-import beans.Account;
 import beans.BankAccount;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,9 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author reube
  */
-@WebServlet(urlPatterns = {"/accountLookupServlet"})
-public class accountLookupServlet extends HttpServlet {
-
+@WebServlet(urlPatterns = {"/accountCreateServlet"})
+public class accountCreateServlet extends HttpServlet {    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -42,10 +41,10 @@ public class accountLookupServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet accountLookupServlet</title>");            
+            out.println("<title>Servlet accountCreateServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet accountLookupServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet accountCreateServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,30 +63,35 @@ public class accountLookupServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        String accountID = request.getParameter("bankID");
-        BankAccount bankAccount = new BankAccount();
-        Account account;
+        String accountID = request.getParameter("accountID");
+        String branchID = request.getParameter("branchID");
+        String balance = request.getParameter("balance");
         try {
-            account = bankAccount.lookupAccount(Integer.parseInt(accountID));
-            if (account != null) {
-            RequestDispatcher dispatcher = getServletContext().
-            getRequestDispatcher("/accountFound.jsp");
-            dispatcher.forward(request, response);
+            BankAccount bankAccount = new BankAccount();
+            boolean accountCreated = bankAccount.createAccount(Integer.parseInt(accountID),
+                    Integer.parseInt(branchID), Float.parseFloat(balance));
+            if (accountCreated) {
+                RequestDispatcher dispatcher = getServletContext().
+                getRequestDispatcher("/accountCreated.jsp");
+                dispatcher.forward(request, response);
+            }
+            else {
+                RequestDispatcher dispatcher = getServletContext().
+                getRequestDispatcher("/accountNotCreated.jsp");
+                dispatcher.forward(request, response);
+            }
         }
-        else {
-            RequestDispatcher dispatcher = getServletContext().
-            getRequestDispatcher("/accountNotFound.jsp");
-            dispatcher.forward(request, response);
+        catch (ClassNotFoundException ex) {
+                RequestDispatcher dispatcher = getServletContext().
+                getRequestDispatcher("/accountNotCreated.jsp");
+                dispatcher.forward(request, response);
+        } 
+        catch (SQLException ex) {
+                RequestDispatcher dispatcher = getServletContext().
+                getRequestDispatcher("/accountNotCreated.jsp");
+                dispatcher.forward(request, response);
         }
-        } catch (SQLException ex) {
-            RequestDispatcher dispatcher = getServletContext().
-            getRequestDispatcher("/accountNotFound.jsp");
-            dispatcher.forward(request, response);
-        } catch (ClassNotFoundException ex) {
-            RequestDispatcher dispatcher = getServletContext().
-            getRequestDispatcher("/accountNotFound.jsp");
-            dispatcher.forward(request, response);
-        }
+        
     }
 
     /**
