@@ -13,5 +13,6 @@
     </head>
     <body>
         <h1>Account Creation Failed!</h1>
+        <P><A HREF="createAccount.jsp">Back to create account page</A></P>
     </body>
 </html>

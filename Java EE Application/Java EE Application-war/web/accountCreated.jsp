@@ -17,5 +17,6 @@
         <p>Account ID: <%=account.getAccountID() %> </p>
         <p>Branch ID: <%=account.getBranchID() %> </p>
         <p>Balance: <%=account.getBalance() %> </p>
+        <P><A HREF="index.jsp">Back to homepage</A></P>
     </body>
 </html>

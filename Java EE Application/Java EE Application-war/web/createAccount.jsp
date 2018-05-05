@@ -26,7 +26,7 @@
             <% out.println("Enter balance"); %>
             <input type="number" name="balance"/>
             <input type="submit" name="submitButton"/>
-            <button type="button" name="back" onclick="history.back()">back</button>
+            <P><A HREF="index.jsp">Back to homepage</A></P>
         </form>
     </body>
 </html>
