@@ -13,5 +13,10 @@
     </head>
     <body>
         <h1>Account Found!</h1>
+        <jsp:useBean id="account" class="beans.Account" scope="session" />
+        <p>Account ID: <%= account.getAccountID() %></p>
+        <p>Branch ID: <%= account.getBranchID() %></p>
+        <p>Balance: <%= account.getBalance() %></p>
+        <P><A HREF="lookupAccount.jsp">Lookup another account</A></P>
     </body>
 </html>
