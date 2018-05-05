@@ -5,13 +5,13 @@
  */
 package beans;
 
-import javax.ejb.Stateless;
+import javax.ejb.Singleton;
 
 /**
  *
  * @author alnaib
  */
-@Stateless
+@Singleton
 public class VisitorCount implements VisitorCountRemote {
 
     @Override

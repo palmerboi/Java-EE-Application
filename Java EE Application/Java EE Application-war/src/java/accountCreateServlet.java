@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import beans.Account;
 import beans.BankAccount;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -71,6 +73,12 @@ public class accountCreateServlet extends HttpServlet {
             boolean accountCreated = bankAccount.createAccount(Integer.parseInt(accountID),
                     Integer.parseInt(branchID), Float.parseFloat(balance));
             if (accountCreated) {
+                Account account = new Account();
+                account.setAccountID(Integer.parseInt(accountID));
+                account.setBranchID(Integer.parseInt(branchID));
+                account.setBalance(Float.parseFloat(balance));
+                HttpSession session = request.getSession(true);
+                session.setAttribute("account", account);
                 RequestDispatcher dispatcher = getServletContext().
                 getRequestDispatcher("/accountCreated.jsp");
                 dispatcher.forward(request, response);

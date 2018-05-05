@@ -13,5 +13,9 @@
     </head>
     <body>
         <h1>Account Created Successfully!</h1>
+        <jsp:useBean id="account" class="beans.Account" scope="session" />
+        <p>Account ID: <%=account.getAccountID() %> </p>
+        <p>Branch ID: <%=account.getBranchID() %> </p>
+        <p>Balance: <%=account.getBalance() %> </p>
     </body>
 </html>
