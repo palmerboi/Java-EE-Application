@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
     Created on : 3/05/2018, 5:52:12 PM
-    Author     : reube
+    Author     : Reuben Palmer 1378847, Alex Alnaib 14874604
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -17,8 +17,8 @@
             <button type="submit" name="button" value="create">Create Account</button>
             <button type="submit" name="button" value="lookup">Lookup Account</button>
         </form>
-            <form action="Visitcount" method="Post">
-                <input type="submit" value="number of visitors on site">
-            </form>
+        <form action="Visitcount" method="Post">
+            <input type="submit" value="number of visitors on site">
+        </form>
     </body>
 </html>

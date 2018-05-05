@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Servlet that accesses data from the BankAccount bean and is
+ * used to search up a users bank account then sends the user
+ * to the correct JSP
  */
 
 import beans.Account;
@@ -9,8 +9,6 @@ import beans.BankAccount;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +19,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author reube
+ * @author Reuben Palmer 1378847, Alex Alnaib 14874604
  */
 @WebServlet(urlPatterns = {"/accountLookupServlet"})
 public class accountLookupServlet extends HttpServlet {
@@ -43,7 +41,7 @@ public class accountLookupServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet accountLookupServlet</title>");            
+            out.println("<title>Servlet accountLookupServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet accountLookupServlet at " + request.getContextPath() + "</h1>");
@@ -66,6 +64,7 @@ public class accountLookupServlet extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         String accountID = request.getParameter("bankID");
+        //BankAccount bean made to display the data on to the accountFound JSP
         BankAccount bankAccount = new BankAccount();
         Account account;
         try {
@@ -73,48 +72,24 @@ public class accountLookupServlet extends HttpServlet {
             HttpSession session = request.getSession(true);
             session.setAttribute("account", account);
             if (account.getAccountID() == Integer.parseInt(accountID)) {
-            RequestDispatcher dispatcher = getServletContext().
-            getRequestDispatcher("/accountFound.jsp");
-            dispatcher.forward(request, response);
-        }
-        else {
-            RequestDispatcher dispatcher = getServletContext().
-            getRequestDispatcher("/accountNotFound.jsp");
-            dispatcher.forward(request, response);
-        }
+                RequestDispatcher dispatcher = getServletContext().
+                        getRequestDispatcher("/accountFound.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                //If the bank account is not found then the user is sent to the accountNotFound JSP
+                RequestDispatcher dispatcher = getServletContext().
+                        getRequestDispatcher("/accountNotFound.jsp");
+                dispatcher.forward(request, response);
+            }
         } catch (SQLException ex) {
             RequestDispatcher dispatcher = getServletContext().
-            getRequestDispatcher("/accountNotFound.jsp");
+                    getRequestDispatcher("/accountNotFound.jsp");
             dispatcher.forward(request, response);
         } catch (ClassNotFoundException ex) {
             RequestDispatcher dispatcher = getServletContext().
-            getRequestDispatcher("/accountNotFound.jsp");
+                    getRequestDispatcher("/accountNotFound.jsp");
             dispatcher.forward(request, response);
         }
     }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

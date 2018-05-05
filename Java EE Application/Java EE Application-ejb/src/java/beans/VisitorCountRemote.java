@@ -1,14 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Local interface used for the VisitorCount bean
  */
 package beans;
 
 /**
  *
- * @author reube
+ * @author Reuben Palmer 1378847, Alex Alnaib 14874604
  */
 public interface VisitorCountRemote {
+
     public int countVisitor(int value);
 }

@@ -1,8 +1,8 @@
 /**
- * This class is a EJB that represents a bank account and has methods to retrieve
+ * This class is a stateless EJB that represents a bank account and has methods to retrieve
  * accounts, bank branches and create bank accounts.
- * 
- * @author Reuben Palmer
+ *
+ * @author Reuben Palmer 1378847, Alex Alnaib 14874604
  */
 package beans;
 
@@ -11,9 +11,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 import javax.ejb.Stateless;
-
 
 @Stateless
 public class BankAccount implements BankAccountLocal {
@@ -22,32 +20,33 @@ public class BankAccount implements BankAccountLocal {
     private final String dbUrl = "jdbc:derby://localhost:1527/DMSASS2DB";
     private final String username = "dms";
     private final String password = "dms2018";
-    
+
+    //Creates a new bank account and inserts it into the DB
     @Override
     public boolean createAccount(int accountID, int branchID, float balance) throws SQLException, ClassNotFoundException {
         Class.forName(dbDriver);
         Connection connection = DriverManager.getConnection(dbUrl, username, password);
         Statement statement = connection.createStatement();
-        String command = "INSERT INTO BANK_ACCOUNT VALUES (" + accountID +
-                ", " + branchID + ", " + balance + ")";
+        String command = "INSERT INTO BANK_ACCOUNT VALUES (" + accountID
+                + ", " + branchID + ", " + balance + ")";
         int result = statement.executeUpdate(command);
         connection.close();
         boolean created;
         if (result == 1) {
             created = true;
-        }
-        else {
+        } else {
             created = false;
         }
         return created;
     }
 
+    //Connects to the DB and searches for a bank account
     @Override
     public Account lookupAccount(int accountID) throws SQLException, ClassNotFoundException {
         Class.forName(dbDriver);
         Connection connection = DriverManager.getConnection(dbUrl, username, password);
         Statement statement = connection.createStatement();
-        String command = "SELECT * FROM BANK_ACCOUNT WHERE BANK_ACCOUNT.accountID = "+ accountID ;
+        String command = "SELECT * FROM BANK_ACCOUNT WHERE BANK_ACCOUNT.accountID = " + accountID;
         ResultSet resultSet = statement.executeQuery(command);
         Account account = new Account();
         while (resultSet.next()) {
@@ -59,5 +58,4 @@ public class BankAccount implements BankAccountLocal {
         return account;
     }
 
- 
 }

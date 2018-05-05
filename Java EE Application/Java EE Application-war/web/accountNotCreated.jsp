@@ -1,7 +1,7 @@
 <%-- 
     Document   : accountNotCreated
     Created on : 3/05/2018, 7:08:18 PM
-    Author     : reube
+    Author     : Reuben Palmer 1378847, Alex Alnaib 14874604
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -13,5 +13,6 @@
     </head>
     <body>
         <h1>Account Creation Failed!</h1>
+        <P><A HREF="createAccount.jsp">Back to create account page</A></P>
     </body>
 </html>

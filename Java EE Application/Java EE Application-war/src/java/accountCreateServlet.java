@@ -1,29 +1,29 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Servlet that accesses the data from the BankAccount bean 
+ * and decides on what jsp to display depending on conditions
+ * of user input.
  */
 
+import beans.Account;
 import beans.BankAccount;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author reube
+ * @author Reuben Palmer 1378847, Alex Alnaib 14874604
  */
 @WebServlet(urlPatterns = {"/accountCreateServlet"})
-public class accountCreateServlet extends HttpServlet {    
+public class accountCreateServlet extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,7 +41,7 @@ public class accountCreateServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet accountCreateServlet</title>");            
+            out.println("<title>Servlet accountCreateServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet accountCreateServlet at " + request.getContextPath() + "</h1>");
@@ -67,55 +67,36 @@ public class accountCreateServlet extends HttpServlet {
         String branchID = request.getParameter("branchID");
         String balance = request.getParameter("balance");
         try {
+            //BankAccount bean created to display the information in the accountCreated JSP
             BankAccount bankAccount = new BankAccount();
             boolean accountCreated = bankAccount.createAccount(Integer.parseInt(accountID),
                     Integer.parseInt(branchID), Float.parseFloat(balance));
             if (accountCreated) {
+                Account account = new Account();
+                account.setAccountID(Integer.parseInt(accountID));
+                account.setBranchID(Integer.parseInt(branchID));
+                account.setBalance(Float.parseFloat(balance));
+                HttpSession session = request.getSession(true);
+                session.setAttribute("account", account);
                 RequestDispatcher dispatcher = getServletContext().
-                getRequestDispatcher("/accountCreated.jsp");
+                        getRequestDispatcher("/accountCreated.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                //If an error occurs and the account is not created then user gets sent to accountNotCreated JSp
+                RequestDispatcher dispatcher = getServletContext().
+                        getRequestDispatcher("/accountNotCreated.jsp");
                 dispatcher.forward(request, response);
             }
-            else {
-                RequestDispatcher dispatcher = getServletContext().
-                getRequestDispatcher("/accountNotCreated.jsp");
-                dispatcher.forward(request, response);
-            }
+        } catch (ClassNotFoundException ex) {
+            RequestDispatcher dispatcher = getServletContext().
+                    getRequestDispatcher("/accountNotCreated.jsp");
+            dispatcher.forward(request, response);
+        } catch (SQLException ex) {
+            RequestDispatcher dispatcher = getServletContext().
+                    getRequestDispatcher("/accountNotCreated.jsp");
+            dispatcher.forward(request, response);
         }
-        catch (ClassNotFoundException ex) {
-                RequestDispatcher dispatcher = getServletContext().
-                getRequestDispatcher("/accountNotCreated.jsp");
-                dispatcher.forward(request, response);
-        } 
-        catch (SQLException ex) {
-                RequestDispatcher dispatcher = getServletContext().
-                getRequestDispatcher("/accountNotCreated.jsp");
-                dispatcher.forward(request, response);
-        }
-        
-    }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }
