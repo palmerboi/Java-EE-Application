@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -69,7 +70,9 @@ public class accountLookupServlet extends HttpServlet {
         Account account;
         try {
             account = bankAccount.lookupAccount(Integer.parseInt(accountID));
-            if (account != null) {
+            HttpSession session = request.getSession(true);
+            session.setAttribute("account", account);
+            if (account.getAccountID() == Integer.parseInt(accountID)) {
             RequestDispatcher dispatcher = getServletContext().
             getRequestDispatcher("/accountFound.jsp");
             dispatcher.forward(request, response);

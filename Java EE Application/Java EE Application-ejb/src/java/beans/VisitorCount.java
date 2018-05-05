@@ -9,10 +9,17 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author reube
+ * @author alnaib
  */
 @Stateless
-public class NewSessionBean implements NewSessionBeanLocal {
+public class VisitorCount implements VisitorCountRemote {
+
+    @Override
+    public int countVisitor(int value) {
+        value = value + 1;
+        return value;
+    }
+   
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")

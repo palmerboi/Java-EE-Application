@@ -5,13 +5,10 @@
  */
 package beans;
 
-import javax.ejb.Local;
-
 /**
  *
  * @author reube
  */
-@Local
-public interface NewSessionBeanLocal {
-    
+public interface VisitorCountRemote {
+    public int countVisitor(int value);
 }

@@ -13,5 +13,6 @@
     </head>
     <body>
         <h1>Account Not Found!</h1>
+        <P><A HREF="lookupAccount.jsp">Lookup another account</A></P>
     </body>
 </html>
